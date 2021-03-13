@@ -14,7 +14,7 @@ You need to create an appscript project at `script.google.com`, and add the Libr
 
 Then use the example code below. Run it.
 
-## Data privacy
+### Data privacy
 
 Remember, the data you are downloading should be **restricted** to only those individuals on your domain who need it. Don't turn on link sharing, for example…
 
@@ -50,10 +50,9 @@ const MBBearerToken = '<secret>';
 function testOA() {
   MB_OA_Gsheets.openApplyV3BearerToken({
     token: OABearerToken, 
-    subdomain: 'igbis',
-    count: 30
+    subdomain: 'igbis'
   }, {
-    id: '1KN6Vb580fWHFX-QktVFrQNQSSS-UlK46MQBd7H43CZo',
+    id: '<id>',
     sheetName: 'OA'
   });
 }
@@ -61,11 +60,10 @@ function testOA() {
 
 function testMB() {
   MB_OA_Gsheets.manageBacV2AuthToken({
-    token: MBBearerToken,
-    count: 30
+    token: MBBearerToken
   }, {
-    id: '1KN6Vb580fWHFX-QktVFrQNQSSS-UlK46MQBd7H43CZo', 
-    sheetName:'Demo'
+    id: '<id>', 
+    sheetName:'MB'
   });
 }
 
