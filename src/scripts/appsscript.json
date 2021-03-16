@@ -1,5 +1,24 @@
 {
-  "dependencies": {},
   "exceptionLogging": "STACKDRIVER",
-  "runtimeVersion": "V8"
-} 
+  "runtimeVersion": "V8",
+  "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "Endpoints",
+        "libraryId": "1WovLPVqVjZxkxkgCNgI3S_A3eDsX3DWOAoetZgRGW1JpGQ_9TK25y7mB",
+        "version": "14"
+      },
+      {
+        "userSymbol": "dottie",
+        "libraryId": "1k_EGzQ6FvfMlyifgPxcBqgPe3TQSWLFGF9VrDWAGU1wfOFnOFsRbI8V_",
+        "version": "5",
+        "developmentMode": false
+      },
+      {
+        "userSymbol": "Enforce",
+        "libraryId": "1K6Ts55BjQFDFTTfnDQsAIH3ZWO7yy9-jUCG4Wayot5UUN6ZmS4vqTxqU",
+        "version": "12"
+      }
+    ]
+  }
+}

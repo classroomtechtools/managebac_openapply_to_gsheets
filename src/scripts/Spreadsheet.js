@@ -1,9 +1,12 @@
-function saveToSpreadsheet_({id, sheetName, jsons, numHeaderRows}) {
+function saveToSpreadsheet_({id, sheetName, jsons, numHeaderRows,
+                            priorityHeaders = ['id', 'student_id', 'first_name', 'last_name', 'class_grade', 'email']}) {
   const ss = SpreadsheetApp.openById(id);
   const sheet = ss.getSheetByName(sheetName);
 
   // clear everything, calculate values
-  const rows = dottie.jsonsToRows(jsons);
+  // priority headers
+  jsons.sort( (a, b) => a.id - b.id );
+  const rows = dottie.jsonsToRows(jsons, priorityHeaders);
 
   //
   if (numHeaderRows == 1) {

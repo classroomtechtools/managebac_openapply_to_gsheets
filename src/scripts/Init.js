@@ -1,3 +1,7 @@
+function initBatch_(lastExecutionDate) {
+  return new Endpoints.batch(200, lastExecutionDate);
+}
+
 function initWithClientIdSecret_({clientId, secret, subdomain, count=100}) {
   // use Urlfetch
   // get bearer
@@ -29,7 +33,7 @@ function initWithAuthToken_({token, subdomain, count=100, domain, version}) {
       "auth-token": token
     },
     stickyQuery: {
-      count
+      per_page: count
     }
   });
 }
