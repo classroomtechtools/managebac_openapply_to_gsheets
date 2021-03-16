@@ -17,7 +17,8 @@ function openApplyV3BearerToken({token, subdomain, count=30}={},
   const version='api/v3';
   const endpoint = initWithBearerToken_({token, subdomain, count, domain, version});
   const jsons = downloadOAv3_(endpoint);
-  saveToSpreadsheet_({id, sheetName, jsons, numHeaderRows});
+  saveToSpreadsheet_({id, sheetName, jsons, numHeaderRows,
+                      priorityHeaders: ['id', 'student_id', 'first_name', 'last_name']});
 }
 
 /**
@@ -38,5 +39,6 @@ function manageBacV2AuthToken ({token, count=30}={},
   const version = 'v2';
   const endpoint = initWithAuthToken_({token, subdomain, domain, version, count});
   const jsons = downloadMBv2_(endpoint);
-  saveToSpreadsheet_({id, sheetName, jsons, numHeaderRows});
+  saveToSpreadsheet_({id, sheetName, jsons, numHeaderRows,
+                      priorityHeaders: ['id', 'student_id', 'first_name', 'last_name', 'class_grade', 'email']});
 }

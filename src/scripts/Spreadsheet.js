@@ -1,5 +1,5 @@
 function saveToSpreadsheet_({id, sheetName, jsons, numHeaderRows,
-                            priorityHeaders = ['id', 'student_id', 'first_name', 'last_name', 'class_grade', 'email']}) {
+                            priorityHeaders = []}) {
   const ss = SpreadsheetApp.openById(id);
   const sheet = ss.getSheetByName(sheetName);
 
