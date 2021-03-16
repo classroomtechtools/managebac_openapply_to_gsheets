@@ -1,12 +1,19 @@
 #   ManageBac / OpenApply to Gsheets
 
-Interacts with the ManageBac and OpenApply APIs downloads into a google spreadsheet. 
-
-Currently only gets the students and linked parents.
-
-Future versions could include additional endpoints.
+Interacts with the ManageBac and OpenApply APIs, downloading students and linked parents into a google spreadsheet. 
 
 ## Getting started
+
+Note that you need access to API manager for this to work. Simplest way is to:
+
+- Make a [copy of this spreadsheet](https://docs.google.com/spreadsheets/d/1Uc___fcVkp_QURp_9sMq3vFJSVncv2-ENwiZmVzz4bg/copy)
+- Click on "Tools" and go to "Script Editor"
+- Fill out the global variables that are relevant to you
+- Run the functions `runMB` and `runOA`
+- Wait for them to finish
+
+
+## Bearer Tokens
 
 The ManageBac bearer token is available from the Develop menu. The OpenApply bearer token can be gotten from using `curl` in the instructions (and is valid for a month).
 
@@ -16,13 +23,13 @@ Then use the example code below. Run it.
 
 ### Data privacy
 
-Remember, the data you are downloading should be **restricted** to only those individuals on your domain who need it. Don't turn on link sharing, for example…
+Remember, the data you are downloading should be **restricted** to only those individuals on your domain who need it. Don't turn on link sharing, for example. 
 
-## Notes
+### Privacy Policy of this library
 
-When you run the below code, it will interact with your school's ManageBac or OpenApply endpoints, starting with the `students` endpoint. It will then augment each student information with the linked parent accounts.
+While you are providing authentication credentials to the library, these items are not saved in any way. They are simply passed through to the API requests themselves.
 
-If any *rate limitations* are encountered, it will sleep until it may continue again (standard operating procedure). You may see a console message indicating this action.
+This library does not save any user data on any server or database.
 
 ### Santity check
 
@@ -34,9 +41,9 @@ Administrators might be tempted to run this code on multiple spreadsheets. That 
 
 Much better would be to run this code on just one spreadsheet, and then use the `IMPORTRANGE` google sheet function on any other spreadsheets that also need the data.
 
-### OpenApply `clientId` and `client secret` method
+### About OpenApply's V3 oauth
 
-Currently this is not supported, but likely to be included in a future version.
+OpenApply's V3 oauth needs a `clientId` and `client secret` method to start, and then the bearer token is obtained. Currently this is not supported, but likely to be included in a future version.
 
 ## Example Code
 
