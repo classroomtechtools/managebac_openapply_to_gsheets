@@ -10,19 +10,23 @@ function downloadMBv2_(endpoint) {
   };
 
   const callback = ({students}) => {
-    const batch = Endpoints.batch();
-    students.forEach( (student, sIdx) => {
-      student.parent_ids.forEach(parent_id => {
-        const request = createParentRequest(parent_id, sIdx);
+    // so we don't overrun with requests, store now
+    const batch = initBatch_(new Date());
+    let count = 0;
+    for (const [sIdx, student] of students.entries()) {
+      for (const parentId of student.parent_ids) {
+        const request = createParentRequest(parentId, sIdx);
         batch.add({request});
-      });
-    });
-    batch.fetchAll().forEach( response => {
+        count += 1;
+      }
+    }
+
+    for (const response of batch) {
       const student = students[response.request.sIdx];
-      if (!student) return;
+      if (!student) continue;
       if (!student.parents) student.parents = [];
       student.parents.push(response.json);
-    });
+    }
 
     return students;
   };
