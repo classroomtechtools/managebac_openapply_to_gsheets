@@ -4,7 +4,10 @@ Interacts with the ManageBac and OpenApply APIs, downloading students and linked
 
 Changelog:
 
-1. March 21st, 2021: Behavior had `incident_date` as native string, `count` which is like an internal ID, and html is stripped from `notes`
+- March 21st, 2021: Properites are added and augmented to `behavior/notes`.
+  - `incident_date` as native date 
+  - `count` serial id-like
+  - `notes` now stripped of html
 
 ## Getting started
 
