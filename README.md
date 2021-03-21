@@ -2,6 +2,10 @@
 
 Interacts with the ManageBac and OpenApply APIs, downloading students and linked parents into a google spreadsheet. 
 
+Changelog:
+
+1. March 21st, 2021: Behavior had `incident_date` as native string, `count` which is like an internal ID, and html is stripped from `notes`
+
 ## Getting started
 
 Note that you need access to API manager for this to work. Simplest way is to:
