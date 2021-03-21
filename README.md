@@ -8,6 +8,7 @@ Changelog:
   - `incident_date` as native date 
   - `count` serial id-like
   - `notes` now stripped of html
+  - Written to spreadsheet by descending `incident_date`
 
 ## Getting started
 
