@@ -1,8 +1,12 @@
 #   ManageBac / OpenApply to Gsheets
 
-Interacts with the ManageBac and OpenApply APIs, downloading students and linked parents into a google spreadsheet. 
+Interacts with the ManageBac and OpenApply APIs, downloading data into a google spreadsheet. Keep a copy of your information for simple integration needs.
 
 Changelog:
+
+- March 22nd, 2021: Added `classes` endpoint
+  - Teachers with `show_on_reports` field `true` are available in `teachers_reporting`
+  - The field `teachers_reporting[0].email` column is prioritized to show justified left in the spreadsheet
 
 - March 21st, 2021: Properites are added and augmented to `behavior/notes`.
   - `incident_date` as native date 
