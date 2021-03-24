@@ -2,7 +2,11 @@
 
 Interacts with the ManageBac and OpenApply APIs, downloading data into a google spreadsheet. Keep a copy of your information for simple integration needs.
 
-Changelog:
+### Changelog
+
+- March 24th, 2021: Added `memberships` endpoint (class enrollments)
+  - This data is not "blended" with user or class info, you'll have to use `VLOOKUP` formula to match class IDs with class info in the `mb_classes` sheet
+  - It is not blended because the script needs more than 6 minutes to complete
 
 - March 22nd, 2021: Added `classes` endpoint
   - Teachers with `show_on_reports` field `true` are available in `teachers_reporting`
@@ -23,6 +27,17 @@ Note that you need access to API manager for this to work. Simplest way is to:
 - Fill out the global variables 
 - Run the functions `runMB` and `runOA`
 - Wait for them to finish
+- Run the funcitons `runMBBehavior` and `runMBclasses`, and `runMBmemberships` as desired
+
+## Updating to latest
+
+If you already have a spreadsheet and want to continue using that one, but want the latest code, do this:
+
+1. Go to [this page](https://script.google.com/home/projects/1Zr56smHtQItW3i0022P1iQCjRDiukJYVLjOe_FEOlTvDV5l6s7i9yyol/edit)
+2. Click on Code.gs
+3. Copy all that code
+4. Paste all that code in the Script Editor of your spreadsheet
+5. Bump the library version of `OA_MB_Gsheets` to the latest (click on it, and choose the biggest number)
 
 
 ## Tokens
