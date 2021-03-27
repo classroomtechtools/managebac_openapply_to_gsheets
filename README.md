@@ -2,7 +2,35 @@
 
 Interacts with the ManageBac and OpenApply APIs, downloading data into a google spreadsheet. Keep a copy of your information for simple integration needs.
 
+
+## Getting started
+
+Note that you need access to API manager for this to work. Simplest way is to:
+
+- Make a [copy of this spreadsheet](https://docs.google.com/spreadsheets/d/1Uc___fcVkp_QURp_9sMq3vFJSVncv2-ENwiZmVzz4bg/copy)
+- Click on "Tools" and go to "Script Editor"
+- Fill out the global variables as appropriate
+- Run the functions `runMB` (for ManageBac) and `runOA` (for OpenApply)
+  - If you don't have MB or don't have OA, just skip running them
+- Wait for them to finish
+- Run the functions `runMBBehavior` and `runMBclasses`, and `runMBmemberships` etc as desired
+
+## Updating to latest
+
+If you already have a spreadsheet and want to continue using that one, but want the latest code, do this:
+
+1. Go to [this page](https://script.google.com/home/projects/1Zr56smHtQItW3i0022P1iQCjRDiukJYVLjOe_FEOlTvDV5l6s7i9yyol/edit)
+2. Click on Code.gs
+3. Copy all that code
+4. Paste all that code in the Script Editor of your spreadsheet
+5. Bump the library version of `OA_MB_Gsheets` to the latest (click on it, and choose the biggest number)
+
+
 ### Changelog
+
+- March 27th, 2021: Added `terms` and `term_grades` endpoints
+  - The `term_grades` is blended with `terms` and `classes` for easy visualization
+  - Executing may significant amount of time (A school of ~400 with 7 years of history took ~5 minutes to execute)
 
 - March 24th, 2021: Added `memberships` endpoint (class enrollments)
   - This data is not "blended" with user or class info, you'll have to use `VLOOKUP` formula to match class IDs with class info in the `mb_classes` sheet
@@ -17,27 +45,6 @@ Interacts with the ManageBac and OpenApply APIs, downloading data into a google 
   - `count` serial id-like
   - `notes` now stripped of html
   - Written to spreadsheet by descending `incident_date`
-
-## Getting started
-
-Note that you need access to API manager for this to work. Simplest way is to:
-
-- Make a [copy of this spreadsheet](https://docs.google.com/spreadsheets/d/1Uc___fcVkp_QURp_9sMq3vFJSVncv2-ENwiZmVzz4bg/copy)
-- Click on "Tools" and go to "Script Editor"
-- Fill out the global variables 
-- Run the functions `runMB` and `runOA`
-- Wait for them to finish
-- Run the funcitons `runMBBehavior` and `runMBclasses`, and `runMBmemberships` as desired
-
-## Updating to latest
-
-If you already have a spreadsheet and want to continue using that one, but want the latest code, do this:
-
-1. Go to [this page](https://script.google.com/home/projects/1Zr56smHtQItW3i0022P1iQCjRDiukJYVLjOe_FEOlTvDV5l6s7i9yyol/edit)
-2. Click on Code.gs
-3. Copy all that code
-4. Paste all that code in the Script Editor of your spreadsheet
-5. Bump the library version of `OA_MB_Gsheets` to the latest (click on it, and choose the biggest number)
 
 
 ## Tokens
