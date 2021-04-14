@@ -1,14 +1,32 @@
-function saveToSpreadsheet_({id, sheetName, jsons, numHeaderRows,
-                            priorityHeaders = []}) {
+/**
+ * Passes the update procedure to the correct function, depending on passed variables,
+ * outputs result
+ */
+function updateSpreadsheet_({doc, jsons, isIncremental=false, useMetadata=true,
+                              priorityHeaders=[], sortCallback = (a, b) => a.id - b.id})
+{
+  Enforce.named(arguments, {doc: 'any', jsons: '!array',
+                 isIncremental: 'boolean', priorityHeaders: 'array',
+                 useMetadata: 'boolean', sortCallback: 'any'}, 'updateToSpreadsheet');
+
+  const result = useMetadata ? 
+                 doc.apply({jsons, priorityHeaders, isIncremental, sortCallback}) :
+                 saveToSpreadsheet_({id: doc.id, sheetName: doc.sheetName, jsons, priorityHeaders, sortCallback});
+
+  Logger.log(result);
+}
+
+function saveToSpreadsheet_({id, sheetName, jsons, numHeaderRows=1,
+                            priorityHeaders = [],
+                            sortCallback = (a, b) => a.id - b.id}) {
   const ss = SpreadsheetApp.openById(id);
   const sheet = ss.getSheetByName(sheetName);
 
   // clear everything, calculate values
   // priority headers
-  jsons.sort( (a, b) => a.id - b.id );
+  jsons.sort( sortCallback );
   const rows = dottie.jsonsToRows(jsons, priorityHeaders);
 
-  //
   if (numHeaderRows == 1) {
     // simple case
     const range = sheet.getRange(1, 1, rows.length, rows[0].length);
@@ -18,9 +36,10 @@ function saveToSpreadsheet_({id, sheetName, jsons, numHeaderRows,
     // respect any header rows that might have been created
     const headers = sheet.getRange(1, 1, 1, rows[0].length);
     headers.clear();
-    headers.setValues(rows[0]);
+    headers.setValues([rows[0]]);
     const values = sheet.getRange(numHeaderRows + 1, 1, rows.length - 1, rows[0].length);
     values.clear();
     values.setValues(rows.slice(1));
   }
 }
+
