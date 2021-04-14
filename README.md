@@ -1,32 +1,85 @@
 #   ManageBac / OpenApply to Gsheets
 
-Interacts with the ManageBac and OpenApply APIs, downloading data into a google spreadsheet. Keep a copy of your information for simple integration needs.
+Interacts with the ManageBac and OpenApply APIs, downloading data into a Google Spreadsheet.
 
+Particularly useful for using as a data source with Google Data Studio.
 
 ## Getting started
+
+Please note that the below is for **Version 2**, and best to start over.
 
 Note that you need access to API manager for this to work. Simplest way is to:
 
 - Make a [copy of this spreadsheet](https://docs.google.com/spreadsheets/d/1Uc___fcVkp_QURp_9sMq3vFJSVncv2-ENwiZmVzz4bg/copy)
 - Click on "Tools" and go to "Script Editor"
-- Fill out the global variables as appropriate
-- Run the functions `runMB` (for ManageBac) and `runOA` (for OpenApply)
-  - If you don't have MB or don't have OA, just skip running them
+- Fill out the global variables in `Globals.gs` as appropriate
+- Go to "Services" and add `Google Sheets API`
+- Run the functions for `ManageBac` and `OpenApply.gs` as appropriate
+  - A function that runs "incremental" means that it only updates since last run (either full or incremental run)
+  - A function that runs "full" is the opposite of "incremental" -- it downloads without any date filtering
 - Wait for them to finish
-- Run the functions `runMBBehavior` and `runMBclasses`, and `runMBmemberships` etc as desired
 
-## Updating to latest
+## Usage
 
-If you already have a spreadsheet and want to continue using that one, but want the latest code, do this:
+Once you have the data in a spreadsheet, you can rearrange the columns, add header row, or add columns. Subsequent updates (either full or incremental) will track to the new location.
 
-1. Go to [this page](https://script.google.com/home/projects/1Zr56smHtQItW3i0022P1iQCjRDiukJYVLjOe_FEOlTvDV5l6s7i9yyol/edit)
-2. Click on Code.gs
-3. Copy all that code
-4. Paste all that code in the Script Editor of your spreadsheet
-5. Bump the library version of `OA_MB_Gsheets` to the latest (click on it, and choose the biggest number)
+You can also use it as a source for Google Data Studio, see section below for further details.
 
+You can set up triggers to run. The author suggests having the full updates run once a week, and the incremental ones run once per hour. (Incremental updates are not available on every endpoint, but where available take up far less than bandwidth and do not overwhelm servers with requests.)
 
 ### Changelog
+
+#### Version 2
+
+- April 15th, 2021: **Version 2**
+  - Any updates in the API information is tracked by metadata, so cell positions may change and still remains in sync
+  - Option to download on the latest (`since_date` in OA and `modifiedSince` in MB)
+  - Adds `protectData` option so student data can be protected (for demonstration or presentation purposes)
+
+#### Deprecated: Version 1
+
+See below for change log on version 1
+
+
+## Limitations
+
+This library uses developer metadata API, which is subject to (at the time of writing) `30,000` characters per sheet. Each row uses `6` characters and each column about `15`, so rounding up a row with ten columns count for `1000 / 30000` or about `3%` against the quota. Datasets that have more columns will use up the quota faster.
+
+If this limitation is hit, you will get an error output with "cannot write as this would exceed quota limitations."
+
+
+## Notes
+
+### Authentication
+
+- The ManageBac auth token is available from the Develop -> API Manager agrea.
+- The OpenApply client ID and client secret can retrieved from the API Manager
+
+The ManageBac tokens have permissions associated with them; be sure that the ones you need are enabled. If the token your using doesn't have permission to do something, it'll tell you!
+
+
+### Data privacy
+
+Remember, the data you are downloading should be **restricted** to only those individuals on your domain who need it. Don't turn on link sharing, for example. 
+
+### Privacy Policy of this library
+
+While you are providing authentication credentials to the library, these items are not saved in any way. They are simply passed through to the API requests themselves.
+
+This library does not save any user data on any server or database. It only passes the information obtained from the API and stores it onto the attached spreadsheet.
+
+### How is this so fast?
+
+Anyone who works with APIs and appscripts may have found it to be slow. 
+
+The code is written for concurrently obtaining results from the API at a rate limit of 200 per second. It uses a batch mode that very efficiently downloads as much as it can, whle at the same time respecting the rate limitations.
+
+## Connect to Google Data Studio
+
+The author has successfully built reports such as pivot tables, using the spreadsheet as the data source. 
+
+
+## Change log for Version 1
 
 - March 27th, 2021: Added `terms` and `term_grades` endpoints
   - The `term_grades` is blended with `terms` and `classes` for easy visualization
@@ -45,40 +98,3 @@ If you already have a spreadsheet and want to continue using that one, but want 
   - `count` serial id-like
   - `notes` now stripped of html
   - Written to spreadsheet by descending `incident_date`
-
-
-## Tokens
-
-- The ManageBac auth token is available from the Develop menu.
-- The OpenApply bearer token can be gotten from using `curl` in the instructions (and is valid for a month).
-- A future version of the library can support the full v3 oauth flow where the bearer token is obtained from the automatic process
-
-Then use the example code below. Run it.
-
-### Data privacy
-
-Remember, the data you are downloading should be **restricted** to only those individuals on your domain who need it. Don't turn on link sharing, for example. 
-
-### Privacy Policy of this library
-
-While you are providing authentication credentials to the library, these items are not saved in any way. They are simply passed through to the API requests themselves.
-
-This library does not save any user data on any server or database. It only passes the information obtained from the API and stores it onto the attached spreadsheet.
-
-### Santity check
-
-Since this code is doing lots of API interactions, please practice sanity and not have it run all the time on a bunch of spreadsheets. You can run it probably once per day.
-
-## Multiple Spreadsheets
-
-Administrators might be tempted to run this code on multiple spreadsheets. That way you can give permissions to different people in your organization. 
-
-Much better would be to run this code on just one spreadsheet, and then use the `IMPORTRANGE` google sheet function on any other spreadsheets that also need the data.
-
-## How is this so fast?
-
-Anyone who works with APIs and appscripts may have found it to be slow. 
-
-The code is written for concurrently obtaining results from the API at a rate limit of 200 per second. It uses a batch mode that very efficiently downloads as much as it can, whle at the same time respecting the rate limitations.
-
-
