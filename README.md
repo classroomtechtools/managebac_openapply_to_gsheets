@@ -14,7 +14,7 @@ Note that you need access to API manager for this to work. Simplest way is to:
 - Click on "Tools" and go to "Script Editor"
 - Fill out the global variables in `Globals.gs` as appropriate
 - Go to "Services" and add `Google Sheets API`
-- Run the functions for `ManageBac` and `OpenApply.gs` as appropriate
+- Run the functions for `ManageBac.gs` and `OpenApply.gs` as appropriate
   - A function that runs "incremental" means that it only updates since last run (either full or incremental run)
   - A function that runs "full" is the opposite of "incremental" -- it downloads without any date filtering
 - Wait for them to finish
@@ -26,6 +26,8 @@ Once you have the data in a spreadsheet, you can rearrange the columns, add head
 You can also use it as a source for Google Data Studio, see section below for further details.
 
 You can set up triggers to run. The author suggests having the full updates run once a week, and the incremental ones run once per hour. (Incremental updates are not available on every endpoint, but where available take up far less than bandwidth and do not overwhelm servers with requests.)
+
+For a detailed examples, see the examples folder in the code listing.
 
 ### Changelog
 
