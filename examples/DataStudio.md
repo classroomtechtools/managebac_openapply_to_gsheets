@@ -2,7 +2,11 @@
 
 Using this repo, you can turn your spreadsheet into a data connector.
 
-## How
+## Examples
+
+### Step by step explanation
+
+[![Watch the video](https://img.youtube.com/vi/mEDWge3Olfw/hqdefault.jpg)](https://youtu.be/mEDWge3Olfw)
 
 ### Enrollment information
 
