@@ -6,7 +6,7 @@ Using this repo, you can turn your spreadsheet into a data connector.
 
 ### Enrollment information
 
-<img src="../main/assets/gender.png" alt="Your image title" width="25%" align="right"/>
+<img src="https://github.com/classroomtechtools/managebac_openapply_to_gsheets/blob/main/assets/gender.png" alt="Breakdown by gender" width="25%" align="right"/>
 
 By making the spreadsheet and a specific tab a data sourcce, you can get derive charts, tables, graphs, you name it. 
 
@@ -18,7 +18,7 @@ That's just getting started though; you could also expose any data points in the
 
 ### Historical grades
 
-<img src="../main/assets/averagegrades.png" alt="Your image title" />
+<img src="https://github.com/classroomtechtools/managebac_openapply_to_gsheets/blob/main/assets/averagegrades.png" alt="Average Grades" />
 
 If you have a tab full of historical grades, you can use Data Studio to derive aggregate data to identify patterns in time.
 
@@ -28,9 +28,9 @@ The row dimensions are the `class.subject_group` field and the column dimensions
 
 ### Individual student grades
 
-<img src="../main/assets/gradesbysubject.png" alt="Your image title" />
+<img src="https://github.com/classroomtechtools/managebac_openapply_to_gsheets/blob/main/assets/gradesbysubject.png" alt="Grades by subject" />
 
-<img src="../main/assets/gradepercentage.png" alt="Your image title" align="right" width="25%"/>
+<img src="https://github.com/classroomtechtools/managebac_openapply_to_gsheets/blob/main/assets/gradepercentage.png" alt="Grade percentage" align="right" width="25%"/>
 
 Data Studio allows controls to be created on a graph, so that the end user can select particular details.
 
