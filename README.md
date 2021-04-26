@@ -23,7 +23,7 @@ Note that you need access to API manager for this to work. Simplest way is to:
 
 Once you have the data in a spreadsheet, you can rearrange the columns, add header row, or add columns. Subsequent updates (either full or incremental) will track to the new location.
 
-You can also use it as a source for Google Data Studio, see section below for further details.
+You can also use it as a source for Google Data Studio, see [example](https://github.com/classroomtechtools/managebac_openapply_to_gsheets/blob/main/examples/DataStudio.md) for further details.
 
 You can set up triggers to run. The author suggests having the full updates run once a week, and the incremental ones run once per hour. (Incremental updates are not available on every endpoint, but where available take up far less than bandwidth and do not overwhelm servers with requests.)
 
@@ -96,10 +96,6 @@ This library does not save any user data on any server or database. It only pass
 Anyone who works with APIs and appscripts may have found it to be slow. 
 
 The code is written for concurrently obtaining results from the API at a rate limit of 200 per second. It uses a batch mode that very efficiently downloads as much as it can, whle at the same time respecting the rate limitations.
-
-## Connect to Google Data Studio
-
-The author has successfully built reports such as pivot tables, using the spreadsheet as the data source. 
 
 
 ## Change log for Version 1
