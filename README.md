@@ -33,6 +33,27 @@ For a detailed examples, see the examples folder in the code listing.
 
 #### Version 2
 
+- April 26th, 2021: Attendance added (version 21)
+  - Downloads all attendance info for students who are *not* archived.
+  - The resulting sheet columns differ from what's on the endpoint in the following ways:
+    - The `student_id` is what the endpoint provides as `id`, and `id` in the sheet is just a serial counter
+    - The `grade` column is the grade ("year") the student was in at the *time the attendance was taken*. This is calculated from the term information and the class name
+    - It also includes term data attendance can be calculated in aggregate
+  - To update, bump library to version 21, add this to `ManageBac.gs`, and add `mb_attendance` to `SYNCKEYS` in `Globals.gs`:
+```js
+function runMBAttendance() {
+  const {manageBacUpdater, dl_mb_attendance: downloader} = MB_OA_Gsheets.module();  
+  manageBacUpdater(MB_Auth, {
+    id: SS_ID, 
+    syncKey: SYNC_KEYS.mb_attendance,
+    downloader
+  }, {
+    priorityHeaders: ['id', 'student_id', 'grade'],
+    protectData: PROTECT_DATA
+  });
+}
+```
+
 - April 15th, 2021: **Version 2**
   - Any updates in the API information is tracked by metadata, so cell positions may change and still remains in sync
   - Option to download on the latest (`since_date` in OA and `modifiedSince` in MB)
