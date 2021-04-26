@@ -47,7 +47,7 @@ function run_Main_OA_({isIncremental}) {
     activeOnly: false,
     protectData: false,
     includeCustomFields: [],
-    includeParentFields, [],
+    includeParentFields: [],
     priorityHeaders: ['id']
   });
 }
