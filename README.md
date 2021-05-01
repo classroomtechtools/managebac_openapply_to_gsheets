@@ -6,8 +6,6 @@ Particularly useful for using as a data source with Google Data Studio.
 
 ## Getting started
 
-Please note that the below is for **Version 2**, and best to start over.
-
 Note that you need access to API manager for this to work. Simplest way is to:
 
 - Make a [copy of this spreadsheet](https://docs.google.com/spreadsheets/d/1Uc___fcVkp_QURp_9sMq3vFJSVncv2-ENwiZmVzz4bg/copy)
@@ -21,7 +19,7 @@ Note that you need access to API manager for this to work. Simplest way is to:
 
 ## Usage
 
-Once you have the data in a spreadsheet, you can rearrange the columns, add header row, or add columns. Subsequent updates (either full or incremental) will track to the new location.
+Once you have the data in a spreadsheet, you can rearrange the columns, add header row, or add columns. Subsequent updates (either full or incremental) will track to the new location. 
 
 You can also use it as a source for Google Data Studio, see [example](https://github.com/classroomtechtools/managebac_openapply_to_gsheets/blob/main/examples/DataStudio.md) for further details.
 
@@ -33,26 +31,16 @@ For a detailed examples, see the examples folder in the code listing.
 
 #### Version 2
 
+- May 1st, 2021: Added caching support and handling for occassional 504 errors
+  - To update, bump library to latest version. No further action required.
+
 - April 26th, 2021: Attendance added (version 21)
   - Downloads all attendance info for students who are *not* archived.
   - The resulting sheet columns differ from what's on the endpoint in the following ways:
     - The `student_id` is what the endpoint provides as `id`, and `id` in the sheet is just a serial counter
     - The `grade` column is the grade ("year") the student was in at the *time the attendance was taken*. This is calculated from the term information and the class name
     - It also includes term data attendance can be calculated in aggregate
-  - To update, bump library to version 21, add this to `ManageBac.gs`, and add `mb_attendance` to `SYNCKEYS` in `Globals.gs`:
-```js
-function runMBAttendance() {
-  const {manageBacUpdater, dl_mb_attendance: downloader} = MB_OA_Gsheets.module();  
-  manageBacUpdater(MB_Auth, {
-    id: SS_ID, 
-    syncKey: SYNC_KEYS.mb_attendance,
-    downloader
-  }, {
-    priorityHeaders: ['id', 'student_id', 'grade'],
-    protectData: PROTECT_DATA
-  });
-}
-```
+  - To update, bump library to version 21, and follow instructions under Version 21 header below
 
 - April 15th, 2021: **Version 2**
   - Any updates in the API information is tracked by metadata, so cell positions may change and still remains in sync
@@ -63,13 +51,11 @@ function runMBAttendance() {
 
 See below for change log on version 1
 
-
 ## Limitations
 
 This library uses developer metadata API, which is subject to (at the time of writing) `30,000` characters per sheet. Each row uses `6` characters and each column about `15`, so rounding up a row with ten columns count for `1000 / 30000` or about `3%` against the quota. Datasets that have more columns will use up the quota faster.
 
 If this limitation is hit, you will get an error output with "cannot write as this would exceed quota limitations."
-
 
 ## Notes
 
@@ -97,6 +83,26 @@ Anyone who works with APIs and appscripts may have found it to be slow.
 
 The code is written for concurrently obtaining results from the API at a rate limit of 200 per second. It uses a batch mode that very efficiently downloads as much as it can, whle at the same time respecting the rate limitations.
 
+### Version 21 (and above)
+
+Instructions for downloading class attendance:
+
+Add the following code to `ManageBac.gs`:
+```js
+function runMBAttendance() {
+  const {manageBacUpdater, dl_mb_attendance: downloader} = MB_OA_Gsheets.module();  
+  manageBacUpdater(MB_Auth, {
+    id: SS_ID, 
+    syncKey: SYNC_KEYS.mb_attendance,   <---- add mb_attendance property in Globals.gs
+    downloader
+  }, {
+    priorityHeaders: ['id', 'student_id', 'grade'],
+    protectData: PROTECT_DATA
+  });
+}
+```
+
+And add `mb_attendance` to `SYNCKEYS` in `Globals.gs`.
 
 ## Change log for Version 1
 
