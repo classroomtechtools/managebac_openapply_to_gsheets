@@ -1,0 +1,38 @@
+{
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "Endpoints",
+        "libraryId": "1WovLPVqVjZxkxkgCNgI3S_A3eDsX3DWOAoetZgRGW1JpGQ_9TK25y7mB",
+        "version": "23"
+      },
+      {
+        "userSymbol": "dottie",
+        "libraryId": "1k_EGzQ6FvfMlyifgPxcBqgPe3TQSWLFGF9VrDWAGU1wfOFnOFsRbI8V_",
+        "version": "13"
+      },
+      {
+        "userSymbol": "Enforce",
+        "libraryId": "1K6Ts55BjQFDFTTfnDQsAIH3ZWO7yy9-jUCG4Wayot5UUN6ZmS4vqTxqU",
+        "version": "14"
+      },
+      {
+        "userSymbol": "GSheetsMetadataSync",
+        "libraryId": "1kMavLN2B4SyluEQUjbWCDx5-vBkABKbgWkKtBX5PnaSJ9JZKTs4g3MVw",
+        "version": "13"
+      },
+      {
+        "userSymbol": "Faker",
+        "libraryId": "1W55BVPfNd_PabLuHFQPrdIP4LhxYEFMzTycX8m9HesqNcoSoyL1MrK6I",
+        "version": "1"
+      },
+      {
+        "userSymbol": "bmCrusher",
+        "libraryId": "1nbx8f-kt1rw53qbwn4SO2nKaw9hLYl5OI3xeBgkBC7bpEdWKIPBDkVG0",
+        "version": "18"
+      }
+    ]
+  }
+}
