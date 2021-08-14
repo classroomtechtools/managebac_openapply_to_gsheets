@@ -1,0 +1,22 @@
+{
+  "timeZone": "America/New_York",
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "dependencies": {
+    "enabledAdvancedServices": [
+      {
+        "userSymbol": "Sheets",
+        "serviceId": "sheets",
+        "version": "v4"
+      }
+    ],
+    "libraries": [
+      {
+        "userSymbol": "MB_OA_Gsheets",
+        "libraryId": "1IXI9ESzAO3ZQpLg0DTGoB55Lnk-6bobE2EUkQSashkIfnSOMNslgMV4d",
+        "version": "0",
+        "developmentMode": true
+      }
+    ]
+  }
+}

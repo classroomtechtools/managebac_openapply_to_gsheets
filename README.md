@@ -19,6 +19,10 @@ Note that you need access to API manager for this to work. Simplest way is to:
 
 Note that a full update is doing quite a lot of work. While steps are taken to ensure it doesn't overwhelm servers, constantly running a full update of all your data may not be the nicest thing to do to the servers on the other side. :)
 
+## Update to latest version
+
+To get completely updated version of the codebase from an old spreadsheet, simply bump the version for the MB_OA_Gsheets library to the latest. In addition, copy the code from `shell/ManageBac.gs` and `shell/OpenApply.gs` into your  `ManageBac.gs` and `OpenApply.gs` files, respectively, in the project (Tools —> Script Editor).
+
 ## How it works
 
 It reads the data from the API, and puts an individual in each column, the fields across the top in columns. Since these APIs (or really any APIs) can have a nested structure, we have to flatten the field names with dot notation. So, for example, the OpenApply API has `custom_fields` field, which has nested fields `health_information`, so the field can name itself `custom_fields.health_information`. 
@@ -39,14 +43,13 @@ You can set up triggers to run. The author suggests having the full updates run 
 
 For a detailed examples, see the examples folder in the code listing.
 
-
 ## Limitations
 
 Developer Metadata has somewhat of a low quota. Exactly where you will see this limitation, however, depends on how much data you ask it to download. If you need all of the custom fields of OpenApply, for example, you will reach it much faster. However, if you are only getting enrolled students, and not withdrawn / declined students, you'll not likely approach the quota … unless the number of enrolled students is high. 
 
 How high? Hard to tell without being more specific:
 
-Developer Metadata is subject to (at the time of writing) `30,000` characters per sheet. Each row uses `6` characters (for the ID) and each column about `15` (depending on how many character the name of the header is), so a single row with 100 columns count for `(6 + 15 * 100) / 30000` or about `0.0502%` against the quota. Datasets that have more columns will use up the quota faster.
+Developer Metadata is subject to (at the time of writing) `30,000` characters per sheet. Each row uses `6` characters (for the ID) and each column about `15` (depending on how many character the name of the header is), so 100 rows with 100 columns per entry will count for `(15 * 100 * 100 + 6 * 100) / 30000` or about `~50%` against the quota. Datasets that have more columns with large number of entries will use up the quota faster.
 
 If this limitation is hit, you will get an error output with "cannot write as this would exceed quota limitations."
 
@@ -76,3 +79,11 @@ This library does not save any user data on any server or database. It only pass
 Anyone who has worked with APIs and AppsScripts may have found downloading lots of data to be a bit slow.
 
 The code takes advantage of `UrlFetchApp.fetchAll` and a batch mode offereed in [this library](https://github.com/classroomtechtools/Endpoints) that very efficiently downloads as much as it can, while at the same time respecting the rate limitations. 
+
+## Upgrading from previous versions
+
+If you have a spreadsheet from an earlier version, you can update to the latest by bumping the version number of the library. 
+
+## Extending
+
+The two main 
