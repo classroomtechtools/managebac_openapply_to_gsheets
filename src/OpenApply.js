@@ -13,7 +13,7 @@
  * @param {String[]} [statuses=[]] - List of statuses to include (if change, run with isIncremental=false)
  * @param {Boolean} [protectData] - If true, replace data with faked info
  */
-function openApplyUpdater_(
+ function openApplyUpdater_(
   { clientId, clientSecret, subdomain, count = 30 },
   { id, syncKey },
   {
@@ -27,12 +27,14 @@ function openApplyUpdater_(
       "class_grade",
       "email",
     ],
+    useMetadata = true,
     includeCustomFields = [],
     includeParentFields = [],
     activeOnly = false,
     statuses = [],
     tabbedStatuses = false,
     visibility = "PROJECT",
+    cnDomain = false
   } = {}
 ) {
   // Ensure valid types are passed through here
@@ -51,15 +53,17 @@ function openApplyUpdater_(
       protectData: "boolean",
       includeParentFields: "array",
       includeCustomFields: "array",
+      useMetadata: "boolean",
       priorityHeaders: "array",
       tabbedStatuses: "boolean",
       visibility: "string",
+      cnDomain: "boolean"
     },
     "openApplyUpdater_"
   );
 
   // setup constant values
-  const domain = "openapply.com";
+  const domain = cnDomain ? "openapply.cn" : "openapply.com";
   const version = "api/v3";
 
   // if activeOnly flag and no statuses, passed, help them out
@@ -157,7 +161,6 @@ function openApplyUpdater_(
     // get the ids so we can also include them
     const includeIds = grabIds(sheet);
 
-    //const jsons = downloadOAv3_({endpoint, since_date, statuses, includeParentFields, includeCustomFields, protectData, includeIds});
     const jsons = downloadOAv3_2_({
       endpoint,
       sheet,
@@ -183,6 +186,7 @@ function openApplyUpdater_(
         jsons: thisJsons,
         isIncremental,
         priorityHeaders,
+        useMetadata
       });
 
       pruneWrongStatuses(jsons, thisSheet, [status]);
@@ -220,6 +224,7 @@ function openApplyUpdater_(
       jsons,
       isIncremental,
       priorityHeaders,
+      useMetadata
     });
 
     if (statuses.length > 0) pruneWrongStatuses(jsons, sheet, statuses);

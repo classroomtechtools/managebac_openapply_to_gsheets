@@ -1,7 +1,16 @@
+function collections_() {
+  return {
+    getWithPagination: getWithPagination_
+  }
+}
+
 function getWithPagination_(
-  { endpoint, callback, stub },
+  { endpoint, callback = null, stub },
   additionalQuery = {}
 ) {
+  if (callback == null)
+    throw new Error("no callback defined");
+
   let page = 1;
 
   /**
@@ -28,14 +37,17 @@ function getWithPagination_(
 
   const ret = callback(firstJson);
 
-  const howMany = firstJson.meta.total_pages;
-  const batch = initBatch_();
+  // openapply and managebac have different keys for this
+  const howMany = firstJson.meta.total_pages || firstJson.meta.pages;
+  const batch = initBatch_(new Date(), {rateLimit: 50});
   for (page = 2; page <= howMany; page++) {
     const request = endpoint.createRequest(
       "get",
       { stub },
       {
         query: { page },
+      }, {
+        page
       }
     );
     request.addQuery(additionalQuery);
@@ -43,8 +55,12 @@ function getWithPagination_(
   }
 
   for (const response of batch) {
-    if (!response.ok)
+    if (!response.ok) {
+      Logger.log(response.text);
       throw new Error(response.statusCode + " http code returned");
+    }
+    const {url} = response.request.getParams();
+    Logger.log(url);
     const json = response.json;
     const append = callback(json);
     Array.prototype.push.apply(ret, append);

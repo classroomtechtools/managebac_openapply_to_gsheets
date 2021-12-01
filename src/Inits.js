@@ -1,14 +1,15 @@
 function auths_() {
   return {
     initWithClientIdSecret: initWithClientIdSecret_,
+    initWithAuthToken: initWithAuthToken_
   };
 }
 
-function initCachedModule_(base = {}, options = {}) {
+function initUserCachedModule_(base = {}, options = {}, cache) {
   const store =
     STORE.store ||
     new bmCrusher.CrusherPluginCacheService().init({
-      store: CacheService.getUserCache(),
+      store: cache,
     });
   const module = Endpoints.module();
   return new module(base, options, {
@@ -101,21 +102,22 @@ function initWithAuthToken_({
   count = 100,
   domain,
   version,
+  verbosity = 3,
+  cache = false
 }) {
   const base = `https://${subdomain}.${domain}/${version}/`;
-  const endpoint = initModule_(
-    {
-      baseUrl: base + "${stub}",
+  const args = [{
+    baseUrl: base + "${stub}",
+  },
+  {
+    stickyHeaders: {
+      "auth-token": token,
     },
-    {
-      stickyHeaders: {
-        "auth-token": token,
-      },
-      stickyQuery: {
-        per_page: count,
-      },
-    }
-  );
-  endpoint.setVerbosity(3);
+    stickyQuery: {
+      per_page: count,
+    },
+  }];
+  const endpoint = cache ? initUserCachedModule_.apply(null, [...args, cache]) : initModule_.apply(null, args);
+  endpoint.setVerbosity(verbosity);
   return endpoint;
 }

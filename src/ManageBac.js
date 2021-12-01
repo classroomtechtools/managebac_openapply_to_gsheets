@@ -1,19 +1,19 @@
 /**
  * manageBacUpdater. Updates spreadsheet
- * @param {Object} auth
- * @param {String} auth.clientId - The client ID in the API manager
- * @param {String} auth.clientSecret - The client ID in the API manager
- * @param {String} auth.subdomain - Your schools subdomain, i.e. 'demo' for 'demo.openapply.com'
- * @param {Number} [auth.count=30]
+ * @param {Object} settings
+ * @param {String} settings.clientId - The client ID in the API manager
+ * @param {String} settings.clientSecret - The client ID in the API manager
+ * @param {String} settings.subdomain - Your schools subdomain, i.e. 'demo' for 'demo.openapply.com'
+ * @param {Number} [settings.count=30]
  * @param {Object} ss
  * @param {String} ss.id - The id of the target spreadsheet to write to
  * @param {String} syncKey - Unique identifier for sync, will keep same
  * @param {Object} options
  * @param {Boolean} [options.incremental=true] - Read from metadata last time the api was used and only updated items
- * @param {String[]} [options.activeOnly=false] - Only download currently enrolled students (and parents)
- * @param {Boolean} [options.protectData] - If true, replace data with faked info using faker.js
+ * @param {String[]} [activeOnly=false] - Only download currently enrolled students (and parents)
+ * @param {Boolean} [protectData] - If true, replace data with faked info using faker.js
  */
-function manageBacUpdater_(
+ function manageBacUpdater_(
   { token, count = 200 },
   { id, syncKey, downloader = null },
   {
@@ -23,6 +23,8 @@ function manageBacUpdater_(
     activeOnly = false,
     protectData = false,
     useMetadata = true,
+    include_archived_students = false,
+    cnDomain = false
   } = {}
 ) {
   // Ensure valid types are passed through here
@@ -40,12 +42,14 @@ function manageBacUpdater_(
       protectData: "boolean",
       priorityHeaders: "array",
       sortCallback: "any",
+      include_archived_students: "boolean",
+      cnDomain: "boolean"
     },
     "manageBacUpdater"
   );
 
   // setup constant values
-  const domain = "managebac.com";
+  const domain = cnDomain ? "managebac.cn" : "managebac.com";
   if (!downloader) throw new Error("Downloader needs to be a function!");
   const version = "v2";
   // initialize the gsheet, fetches the sheetId from metadata
@@ -92,6 +96,7 @@ function manageBacUpdater_(
     count,
     domain,
     version,
+    cnDomain
   });
   // custom_fields is false by default
   const jsons = downloader({
@@ -99,6 +104,7 @@ function manageBacUpdater_(
     modifiedSince: since_date,
     activeOnly,
     protectData,
+    include_archived_students
   });
 
   // store date for later, before operation

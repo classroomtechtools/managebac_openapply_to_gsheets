@@ -21,7 +21,7 @@ const PROTECT_DATA = false;
 /**
  * If you only want students and classes currently active (not archived) set this to true
  */
-const ACTIVE_ONLY = false;
+const ACTIVE_ONLY = true;
 
 /**
  * Below here, "only change if you know what you're doing"
@@ -33,7 +33,8 @@ const SS_ID = SpreadsheetApp.getActive().getId();
 const SYNC_KEYS = {
   mb_main: "mb_main",
   oa_main: "oa_main",
-  mb_terms: "mb_academic_terms",
+  mb_academic_terms: "mb_academic_terms",
+  mb_teachers: "mb_teachers",
   mb_classes: "mb_classes",
   mb_termgrades: "mb_termgrades",
   mb_memberships: "mb_memberships",
@@ -52,4 +53,3 @@ const OA_Auth = {
   subdomain: SUBDOMAIN,
   count: 50,
 };
-

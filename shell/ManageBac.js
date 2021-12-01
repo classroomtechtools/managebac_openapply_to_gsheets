@@ -41,10 +41,39 @@
    );
  }
  
+ function run_Teachers_MB() {
+   const modules = MB_OA_Gsheets.modules();
+   const { manageBacUpdater } = modules.orchestrators;
+   const { dl_mb_teachers } = modules.downloaders;
+ 
+   manageBacUpdater(
+     MB_Auth,
+     {
+       id: SS_ID,
+       syncKey: SYNC_KEYS.mb_teachers,
+       downloader: dl_mb_teachers,
+     },
+     {
+       isIncremental: false, // not yet implemented
+       useMetadata: false, // not yet implemented
+ 
+       activeOnly: true,  // true for only archived teachers
+       priorityHeaders: [
+         "id",
+         "last_name",
+         "first_name",
+         "email",
+         "role"
+       ],
+       protectData: false,
+       cnDomain: false
+     }
+   );
+ }
+ 
  /**
   *
   */
- 
  function run_Classes_MB() {
    const modules = MB_OA_Gsheets.modules();
    const { manageBacUpdater } = modules.orchestrators;
@@ -110,6 +139,7 @@
        isIncremental: false, // this endpoint doesn't have since_date or modifiedSince option
        priorityHeaders: ["id"],
        protectData: PROTECT_DATA,
+       useMetadata: false // too much info at this endpoint to justify using metadata 
      }
    );
  }
@@ -133,6 +163,62 @@
        sortCallback: (a, b) => a.student_id - b.student_id,
      }
    );
+ }
+ 
+ function getMBTermsByDate_ ({date=new Date()}) { 
+   const modules = MB_OA_Gsheets.modules();
+   const {manageBacUpdater} = modules;
+ 
+   const {dl_mb_academic_terms_for_date} = modules.downloaders;
+ 
+   // here, downloader is a higher-order function, using date as a closure so can filter
+   const downloader = dl_mb_academic_terms_for_date({date});
+ 
+   manageBacUpdater(MB_Auth, {
+     id: SS_ID, 
+     syncKey: SYNC_KEYS.mb_current_terms,
+     downloader
+   }, {
+     isIncremental: false,  // this endpoint doesn't have since_date or modifiedSince option
+     priorityHeaders: ['id', 'program', 'name', 'starts_on', 'ends_on'],
+     protectData: false,  // no option to protect this data,
+     useMetadata: false
+   });
+ }
+ 
+ function runMBTermGradesForDate() {
+   const date = new Date(); // or replace by desired date in yyyy/MM/dd format e.g. new Date('2021/12/01')
+   getMBTermsByDate_({date});
+ }
+ 
+ /**
+  * Terms IDs must be [ <int>, <str> ]
+  * Where the strings are unique.
+  */
+ function runMBTermGradesForTerm() {
+   const term_ids = [
+     [0, 'name'],  // [raw ID, name for sheet]
+   ];
+   const modules = MB_OA_Gsheets.modules();
+   const {manageBacUpdater} = modules;
+   const {dl_mb_term_grades_for_a_term} = modules.downloaders;
+ 
+   for (const [term_id, name] of term_ids) {
+     if (!name) throw new Error(`Specify a name for term ${term_id}`);
+     const downloader = dl_mb_term_grades_for_a_term({term_id});
+     
+     manageBacUpdater(MB_Auth, {
+       id: SS_ID, 
+       syncKey: `term_grades ${term_id}`,
+       downloader
+     }, {
+       isIncremental: false,  // this endpoint doesn't have since_date or modifiedSince option
+       priorityHeaders: ['id', 'name', 'program', 'class.name', 'class.grade_number'],
+       protectData: PROTECT_DATA,
+       useMetadata: false,
+     });
+   
+   }
  }
  
  function runMBTermGrades() {

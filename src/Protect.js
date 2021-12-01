@@ -1,7 +1,13 @@
 const faker = Faker.module(); // in case needed below
 const makeFake = (obj, prop, func, ...params) => {
   if (obj[prop] === undefined) return;
+  if (!func.apply) throw new Error("makeFake not passed a function, " + func + " instead.");
   obj[prop] = func.apply(null, params);
+};
+
+const makeFakeGender = (entity, field='gender') => {
+  const binaryGenders = ["Male", "Female"]; 
+  makeFake(entity, field, faker.random.arrayElement, binaryGenders);
 };
 
 function randomByType_(data) {
@@ -20,12 +26,16 @@ function randomByType_(data) {
 
 function protectCommonParent_(parent) {
   // gender is not throughout
-  makeFake(parent, "first_name", faker.name.firstName);
-  makeFake(parent, "middle_name", faker.name.middleName);
+  makeFakeGender(parent);
+  makeFake(parent, "first_name", faker.name.firstName, parent.gender);
+  makeFake(parent, "middle_name", faker.name.middleName, parent.gender);
   makeFake(parent, "last_name", faker.name.lastName);
   makeFake(parent, "preferred_name", () => parent.first_name);
   makeFake(parent, "other_name", () => parent.first_name);
-  makeFake(parent, "email", faker.internet.email);
+  makeFake(parent, 'email', function (e) {
+    return `${e.first_name}.${e.last_name}@example.com`
+  }, parent);
+  //makeFake(parent, "email", faker.internet.email);
   makeFake(parent, "city", faker.address.city);
   makeFake(parent, "country", faker.address.country);
   makeFake(parent, "state", faker.address.state);
@@ -35,7 +45,6 @@ function protectMBParent_(parent) {
   protectCommonParent_(parent);
   makeFake(parent, "birthday", faker.date.recent);
   makeFake(parent, "employer", faker.date.recent);
-  makeFake(parent, "gender", faker.name.gender);
   for (const lang of parent.languages) {
     makeFake(lang, faker.address.country);
   }
@@ -65,13 +74,16 @@ function protectOAParent_(parent) {
 
 function protectCommonStudent_(student) {
   makeFake(student, "student_id", faker.datatype.number);
-  makeFake(student, "gender", faker.name.gender);
+  makeFakeGender(student);
   makeFake(student, "first_name", faker.name.firstName, student.gender);
   makeFake(student, "middle_name", faker.name.middleName, student.gender);
   makeFake(student, "last_name", faker.name.lastName);
   makeFake(student, "preferred_name", () => student.first_name);
   makeFake(student, "other_name", () => student.first_name);
-  makeFake(student, "email", faker.internet.email);
+  makeFake(student, 'email', function (e) {
+    return `${e.first_name}.${e.last_name}@example.com`
+  }, student);
+  //makeFake(student, "email", faker.internet.email);
   makeFake(student, "city", faker.address.city);
   makeFake(student, "country", faker.address.country);
   makeFake(student, "state", faker.address.state);
@@ -128,7 +140,10 @@ function protectMBTeacher_(teacher) {
   makeFake(teacher, "last_name", faker.name.lastName);
   makeFake(teacher, "preferred_name", () => teacher.first_name);
   makeFake(teacher, "other_name", () => teacher.first_name);
-  makeFake(teacher, "email", faker.internet.email);
+  makeFake(teacher, 'email', function (e) {
+    return `${e.first_name}.${e.last_name}@example.com`
+  }, teacher);
+  //makeFake(teacher, "email", faker.internet.email);
   makeFake(teacher, "city", faker.address.city);
   makeFake(teacher, "country", faker.address.country);
   makeFake(teacher, "state", faker.address.state);
@@ -144,6 +159,7 @@ function protectMBTeacher_(teacher) {
     );
   }
   makeFake(teacher, "photo_url", faker.internet.url);
+  return teacher;
 }
 
 function protectNote_(note) {
@@ -174,6 +190,21 @@ function protectTermGrade_(obj) {
     stable_names_.set(real_name, obj.name); // remember
   }
   makeFake(obj.term_grade, "comments", faker.lorem.paragraph);
+}
+
+function protectAssignmentGrade_(obj) {
+  const { name: real_name } = obj;
+  if (stable_names_.has(real_name)) {
+    obj.name = stable_names_.get(real_name);
+  } else {
+    makeFake(obj, "name", () =>
+      faker.fake("{{name.firstName}} {{name.lastName}}")
+    );
+    stable_names_.set(real_name, obj.name); // remember
+  }
+  for (assignment of obj.assignments) {
+    makeFake(assignment, "comment", faker.lorem.paragraph);
+  }
 }
 
 function protectMembership_(membership) {

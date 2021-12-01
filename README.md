@@ -21,7 +21,12 @@ Note that a full update is doing quite a lot of work. While steps are taken to e
 
 ## Update to latest version
 
-To get completely updated version of the codebase from an old spreadsheet, simply bump the version for the MB_OA_Gsheets library to the latest. In addition, copy the code from `shell/ManageBac.gs` and `shell/OpenApply.gs` into your  `ManageBac.gs` and `OpenApply.gs` files, respectively, in the project (Tools —> Script Editor).
+Instructions for updating to the latest version of the codebase from an old spreadsheet. In the attached project:
+
+1. Bump the version for the MB_OA_Gsheets library to the latest.
+2. Copy the code in `shell/*` and replace it with the files and code. For example, copy the contents of `shell/Managebac.js` to the `ManageBac.gs` file in the project
+
+
 
 ## How it works
 
