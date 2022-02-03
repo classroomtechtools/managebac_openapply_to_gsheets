@@ -1,8 +1,7 @@
 #   ManageBac / OpenApply to Gsheets
 
-Interacts with the ManageBac and OpenApply APIs, downloading data into a Google Spreadsheet.
+Interacts with the ManageBac and OpenApply APIs, downloading data into a Google Spreadsheet. This software is not officiallly supported by Faria, and is provided "as is."
 
-Particularly useful for using as a data source with Google Data Studio.
 
 ## Getting started
 
@@ -23,14 +22,14 @@ Note that a full update is doing quite a lot of work. While steps are taken to e
 
 Instructions for updating to the latest version of the codebase from an old spreadsheet. In the attached project:
 
-1. Bump the version for the MB_OA_Gsheets library to the latest.
-2. Copy the code in `shell/*` and replace it with the files and code. For example, copy the contents of `shell/Managebac.js` to the `ManageBac.gs` file in the project
-
-
+1. Go to Extensions and click on "AppsScripts" to bring up the project
+2. In the sidebar "Libraries" click on  `MB_OA_Gsheets` library and choose the latest version.
+3. Except for `Globals.gs`, copy the code in `shell/*` and replace it with the files and code. For example, copy the contents of `shell/Managebac.js` to the `ManageBac.gs` file in the project.
+4. You should now be able to use the latest functionality
 
 ## How it works
 
-It reads the data from the API, and puts an individual in each column, the fields across the top in columns. Since these APIs (or really any APIs) can have a nested structure, we have to flatten the field names with dot notation. So, for example, the OpenApply API has `custom_fields` field, which has nested fields `health_information`, so the field can name itself `custom_fields.health_information`. 
+It reads the data from the API, and puts an individual in each column, the fields across the top in columns. Since these APIs (or really any APIs) can have a nested structure, we have to flatten the field names with dot notation. 
 
 Brackets are used to indicate which number in the list it appears. So students with `parent_ids`, the column names will be `parent_ids[0]` for the first, `parent_ids[1]` for the second, and so on.
 
@@ -47,6 +46,22 @@ You can also use it as a source for Google Data Studio, see [example](https://gi
 You can set up triggers to run. The author suggests having the full updates run once a week, and the incremental ones run once every few hours. (Incremental updates are not available on every endpoint, but where available take up far less than bandwidth and do not overwhelm servers with requests.)
 
 For a detailed examples, see the examples folder in the code listing.
+
+### Term Grades
+
+Instructions for finding term grades are as follows:
+
+- Run the function `run_MB_TermGradesForDate`, which will output the terms into a new tab
+- The tab will only have term IDs that are "current" for the date provided in the script
+- If you didn't provide a date, then "today" is used
+- You can change the default date (today) in the `run_MB_TermGradesForDate` function, by editing the line `const date = new Date('2021/12/01')`
+
+```
+function run_MB_TermGradesForDate() {
+  const date = new Date(); // or replace by desired date in yyyy/MM/dd format e.g. new Date('2021/12/01')
+  getMBTermsByDate_({date});
+}
+```
 
 ## Limitations
 
