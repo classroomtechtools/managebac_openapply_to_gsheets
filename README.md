@@ -51,17 +51,18 @@ For a detailed examples, see the examples folder in the code listing.
 
 Instructions for finding term grades are as follows:
 
-- Run the function `run_MB_TermGradesForDate`, which will output the terms into a new tab
-- The tab will only have term IDs that are "current" for the date provided in the script
-- If you didn't provide a date, then "today" is used
-- You can change the default date (today) in the `run_MB_TermGradesForDate` function, by editing the line `const date = new Date('2021/12/01')`
+1. Run the function `run_MB_TermGradesForDate`, which will output the terms into a new tab
+1. The tab will only have term IDs that are "current" for the date provided in the script
+1. If you didn't provide a date, then "today" is used (You can change the default date (today) in the `run_MB_TermGradesForDate` function, by editing the line `const date = new Date('2021/12/01')`)
+2. Inspect the new tab and find the term IDs you want to download the term grades for
+3. Edit the lines after `run_MB_TermGradesForTerms`, for example:
 
+```js
+  const term_ids = [
+    [94773, 'August 2021 – August 2022'],  // [raw ID, name for sheet]
+  ];
 ```
-function run_MB_TermGradesForDate() {
-  const date = new Date(); // or replace by desired date in yyyy/MM/dd format e.g. new Date('2021/12/01')
-  getMBTermsByDate_({date});
-}
-```
+4. Run the `run_MB_TermGradesForTerms` function. It may take a several minutes to complete
 
 ## Limitations
 
@@ -100,10 +101,3 @@ Anyone who has worked with APIs and AppsScripts may have found downloading lots 
 
 The code takes advantage of `UrlFetchApp.fetchAll` and a batch mode offereed in [this library](https://github.com/classroomtechtools/Endpoints) that very efficiently downloads as much as it can, while at the same time respecting the rate limitations. 
 
-## Upgrading from previous versions
-
-If you have a spreadsheet from an earlier version, you can update to the latest by bumping the version number of the library. 
-
-## Extending
-
-The two main 
