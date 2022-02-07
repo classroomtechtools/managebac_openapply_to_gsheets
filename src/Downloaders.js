@@ -492,7 +492,7 @@ function dl_mb_term_grades_({
 }) {
   const {termLookup, termIds} = get_termLookup({endpoint});
 
-  const classes = get_all_classes({activeOnly});
+  const classes = get_all_classes_({activeOnly});
 
   /**
    * build all of the requests we need … which is every class, every term that that class has
