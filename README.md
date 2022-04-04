@@ -89,15 +89,14 @@ Remember, the data you are downloading to the spreadsheet should be **restricted
 
 There is a feature `protectData` in case you need it. Perhaps you want to show a colleague how you built it? Don't share the real data, run a full update with `protectData: true` and safely share.
 
-### Privacy Policy of this library
-
-While you are providing authentication credentials to the library, these items are not saved in any way. They are simply passed through to the API requests themselves.
-
-This library does not save any user data on any server or database. It only passes the information obtained from the API and stores it onto the attached spreadsheet.
-
 ### How is this so fast?
 
 Anyone who has worked with APIs and AppsScripts may have found downloading lots of data to be a bit slow.
 
 The code takes advantage of `UrlFetchApp.fetchAll` and a batch mode offereed in [this library](https://github.com/classroomtechtools/Endpoints) that very efficiently downloads as much as it can, while at the same time respecting the rate limitations. 
 
+## Privacy Policy of this library
+
+No authentication credentials are saved or stored, neither in the cloud or in any database or external storage system. They are simply passed through to the API requests themselves. Data from the responses are also not stored in anything except for the target spreadsheet. 
+
+Please view the `manifest.json` file for a list of whitelisted domains to which this library communicates.
