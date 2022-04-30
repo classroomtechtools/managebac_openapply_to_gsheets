@@ -11,7 +11,8 @@
       {
         "userSymbol": "dottie",
         "libraryId": "1k_EGzQ6FvfMlyifgPxcBqgPe3TQSWLFGF9VrDWAGU1wfOFnOFsRbI8V_",
-        "version": "13"
+        "version": "15",
+        "developmentMode": false
       },
       {
         "userSymbol": "Enforce",
