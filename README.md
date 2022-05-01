@@ -70,6 +70,25 @@ Instructions for finding term grades are as follows:
 ```
 4. Run the `run_MB_TermGradesForTerms` function. It may take a several minutes to complete
 
+### Attendance
+
+#### Homeroom Attendance for a date range
+
+The `run_MB_HrAttendance_byDate` populates a sheet with homeroom attendance for each day in a date range (which must be manually input). It can skip weekends. You must provide it a list of year group IDs, which can be found by running `run_MB_Yeargroups`.
+
+The `report_HrAttendance_byDate` can then be used to build a pivot table which displays daily tabulation of attendance data.
+
+#### Class Attendance by terms
+
+The `run_MB_ClassAttendance_byterm` function populates a sheet for all classes, for every term the class was run. It displays student ID and the (calculated) grade at the time the student was entered. It can be used to build attendance analytics.
+
+#### Class Attendance for a date range
+
+The `run_MB_ClassAttendance_byDate` populates a sheet with class attendance for each day in a date range (which must be manually input). It can skip weekends. 
+
+The `report_ClassAttendance_byDate` can then be used to build a pivot table which displays daily tabulation of attendance data.
+
+
 ## Update to latest version
 
 Instructions for updating to the latest version of the codebase from an old spreadsheet. In the attached project:
