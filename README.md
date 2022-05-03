@@ -86,7 +86,15 @@ The `run_MB_ClassAttendance_byterm` function populates a sheet for all classes, 
 
 The `run_MB_ClassAttendance_byDate` populates a sheet with class attendance for each day in a date range (which must be manually input). It can skip weekends. 
 
-The `report_ClassAttendance_byDate` can then be used to build a pivot table which displays daily tabulation of attendance data.
+#### Aggregating attendance data into a pivot table
+
+The raw data provided via the API is formatted with the intention of being consumed by analytics platform. However, you may use the following query formula. This is the formula for class attendance:
+
+```
+=query(A1:F,"select A,B,C,min(E),min(F) Group by A,B,C pivot D order by C label min(E) 'Status', min(F) 'Note' ")
+```
+
+The formula above may need to be adjusted, depending on what your intended outcome is.
 
 
 ## Update to latest version
