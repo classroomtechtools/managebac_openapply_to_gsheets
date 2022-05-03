@@ -76,7 +76,6 @@ Instructions for finding term grades are as follows:
 
 The `run_MB_HrAttendance_byDate` populates a sheet with homeroom attendance for each day in a date range (which must be manually input). It can skip weekends. You must provide it a list of year group IDs, which can be found by running `run_MB_Yeargroups`.
 
-The `report_HrAttendance_byDate` can then be used to build a pivot table which displays daily tabulation of attendance data.
 
 #### Class Attendance by terms
 
