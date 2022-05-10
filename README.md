@@ -87,13 +87,30 @@ The `run_MB_ClassAttendance_byDate` populates a sheet with class attendance for 
 
 #### Aggregating attendance data into a pivot table
 
-The raw data provided via the API is formatted with the intention of being consumed by analytics platform. However, you may use the following query formula. This is the formula for class attendance:
+The raw data provided via the API is formatted with the intention of being consumed by analytics platform. However, you may use the following custom formula to derive a useful table of the attendance data. This is the formula for homeroom attendance:
 
 ```
-=query(A1:F,"select A,B,C,min(E),min(F) Group by A,B,C pivot D order by C label min(E) 'Status', min(F) 'Note' ")
+=attendance_report(SheetName!A:G, SheetName!A1:C1, SheetName!E1, SheetName!F1:G1, SheetName!E1)
 ```
 
-The formula above may need to be adjusted, depending on what your intended outcome is.
+Where `SheetName` is the name of the sheet of the source homeroom data. 
+
+Please find the function signature of the custom function below:
+
+```
+/**
+ * Present source data as grouped by columns with values, and rows on the left
+ * 
+ * @param source {Any[][]} - The source as a range
+ * @param rows  {String[][]} -  The rows to display to the left
+ * @param columns {String[][]} - Select the columns to group by first value
+ * @param values {String[][]} - Select the values to display in the columns
+ * @param dateProperties {String[][]} - Columns that need to be converted to dates
+ * @param sortBy {String[][]} - Columns you want it sorted by
+ * @customfunction
+ */
+function attendance_report(source, rows, columns, values, dateProperties=null, sortBy=null) { }
+```
 
 
 ## Update to latest version
