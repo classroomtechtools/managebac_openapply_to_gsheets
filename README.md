@@ -90,28 +90,18 @@ The `run_MB_ClassAttendance_byDate` populates a sheet with class attendance for 
 The raw data provided via the API is formatted with the intention of being consumed by analytics platform. However, you may use the following custom formula to derive a useful table of the attendance data. This is the formula for homeroom attendance:
 
 ```
-=attendance_report(SheetName!A:G, SheetName!A1:C1, SheetName!E1, SheetName!F1:G1, SheetName!E1)
+=attendance_report(SheetName!A:G, {"student.id", "student.name", "student.grade"},    "date",      {"status",    "note"    },   "student.grade")
+              //   | source    |  |.              rows                          |    |columns|     |        values         |    |    sortBy   | 
 ```
 
-Where `SheetName` is the name of the sheet of the source homeroom data. 
+The `source` is the data from which to build from, `rows` is the names of the columns to display on left, `columns` is names of the columns across, `values` is the names of columns which go under `columns`, and `sortBy` is any column name from `rows` to use to order.
 
-Please find the function signature of the custom function below:
+The above is for homeroom attendance. For classroom attendance, this will work:
 
 ```
-/**
- * Present source data as grouped by columns with values, and rows on the left
- * 
- * @param source {Any[][]} - The source as a range
- * @param rows  {String[][]} -  The rows to display to the left
- * @param columns {String[][]} - Select the columns to group by first value
- * @param values {String[][]} - Select the values to display in the columns
- * @param dateProperties {String[][]} - Columns that need to be converted to dates
- * @param sortBy {String[][]} - Columns you want it sorted by
- * @customfunction
- */
-function attendance_report(source, rows, columns, values, dateProperties=null, sortBy=null) { }
+=attendance_report(SheetName!A:G, {"student.id", "student.name", "student.grade"},   {"date", "period"},      {"status",    "note"    },  "student.grade")
+              //   | source    |  |.              rows                          |    |    columns     |       |        values         |   |    sortBy   | 
 ```
-
 
 ## Update to latest version
 
