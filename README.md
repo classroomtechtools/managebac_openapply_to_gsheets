@@ -126,6 +126,8 @@ If this limitation is hit, you will get an error output with "cannot write as th
 
 No authentication credentials are saved or stored, neither in the cloud or in any database or external storage system. They are simply passed through to the API requests themselves. Data from the responses are also not stored in anything except for the target spreadsheet. 
 
+All API calls are via https / ssl.
+
 Please view the `manifest.json` file for a list of whitelisted domains to which this library communicates.
 
 ### Share responsibly
